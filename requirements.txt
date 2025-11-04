@@ -1,0 +1,17 @@
+# Flask и его сервер
+flask
+waitress
+
+# ORM и драйвер БД
+sqlalchemy
+psycopg2-binary
+
+# Загрузка .env и CORS
+python-dotenv
+flask-cors
+
+# Клиенты (остаются без изменений)
+aiogram
+aiohttp
+# Остановите все процессы (бота и бэкенд)
+# Активируйте venv, если не активно
