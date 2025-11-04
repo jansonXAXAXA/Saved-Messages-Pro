@@ -1,17 +1,13 @@
-# Flask и его сервер
-flask
-waitress
+# API (FastAPI)
+fastapi
+
+# ASGI-сервер для запуска FastAPI
+uvicorn
 
 # ORM и драйвер БД
 sqlalchemy
 psycopg2-binary
 
-# Загрузка .env и CORS
-python-dotenv
-flask-cors
-
-# Клиенты (остаются без изменений)
+# Telegram-бот и HTTP-клиент
 aiogram
 aiohttp
-# Остановите все процессы (бота и бэкенд)
-# Активируйте venv, если не активно
