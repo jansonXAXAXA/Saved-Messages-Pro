@@ -1,7 +1,7 @@
-<h1 align="center">Favorite Pro</h1>
+<h1 align="center">Избранное Pro / Favorites Pro</h1>
 
 <p align="center">
-  <strong>Your personal ideas archive. Turn chaos from your saved messages into an organized collection.</strong>
+  <strong>Ваш персональный архив идей. / Your personal archive of ideas.</strong>
 </p>
 
 <p align="center">
@@ -13,41 +13,177 @@
   <img src="https://img.shields.io/badge/Docker-2496ED.svg?logo=docker&logoColor=white" alt="Docker">
 </p>
 
-## 🎯 The Problem
+## 💡 Идея / The Idea
 
-Every day, we save dozens of links, posts, videos, and memes to our "Saved Messages" in Telegram or other social media. Over time, this feed turns into chaos where it's impossible to find anything, and 80% of the saved content is forgotten forever. Valuable ideas and time are lost.
+**RU:** Ежедневно мы сохраняем десятки ссылок и постов в "Избранное", которое со временем превращается в хаос. "Избранное Pro" решает эту проблему, организуя контент в визуальные "доски" (как в Pinterest) с удобным поиском и доступом.
 
-## 💡 The Solution: Izbranoe Pro
+**EN:** Every day, we save dozens of links and posts to our "Saved Messages," which turns into chaos over time. "Izbranoe Pro" solves this by organizing content into visual "boards" (like Pinterest) with easy search and access.
 
-**"Izbranoe Pro"** is a tool that organizes your content into visual "boards" (similar to Pinterest). It transforms random saves into a structured "personal archive of ideas" with search and convenient access from any device.
+## ✨ Технологический стек / Tech Stack
 
-## ✨ Tech Stack
-
-| Component      | Technologies                             | Description                                                              |
-|----------------|------------------------------------------|--------------------------------------------------------------------------|
-| **Backend**    | `FastAPI`, `SQLAlchemy`, `PostgreSQL`    | A REST API to manage all data (users, boards, items).                    |
-| **Telegram Bot** | `aiogram 3.x`                            | The primary client for quickly saving content.                           |
-| **Web UI**     | `HTML`, `CSS`, `Vue.js`                  | A visual client for browsing boards and saved items in a web browser.    |
-| **Environment**| `Docker`                                 | Containerization of the PostgreSQL database for easy deployment.         |
-
-## 🚀 Key Features
-
-*   **Quick Save via Telegram:** Simply send the bot any text, link, photo, video, voice message, or location.
-*   **Title Prompt on Save:** The bot asks for a custom title for each item, so you'll never forget its context.
-*   **Board Organization:** Create thematic boards (e.g., "To Read," "Vacation Ideas," "Recipes").
-*   **Auto-Board Creation:** If you don't have any boards, the bot automatically creates the first one with the current date.
-*   **Interactive Browsing:** Use bot commands or the web UI to browse the contents of your boards and open saved items.
-*   **Full-Text Search:** Instantly find any item by its title using the `/search` command.
-*   **Dual Clients:** Manage your archive through both a convenient Telegram bot and a clear, visual web interface.
+| Компонент | Технологии |
+|---|---|
+| **Бэкенд / Backend** | `FastAPI`, `SQLAlchemy`, `PostgreSQL` |
+| **Telegram-бот / Bot** | `aiogram 3.x` |
+| **Веб-интерфейс / Web UI** | `HTML`, `CSS`, `Vue.js` |
+| **Окружение / Environment** | `Docker` |
 
 ---
 
-## 🛠️ How to Run the Project Locally
+## 🛠️ Как запустить проект / How to Run the Project
+
+<details>
+<summary><strong>🇷🇺 Инструкция на русском (нажмите, чтобы развернуть)</strong></summary>
+
+**Предварительные требования:** **Git**, **Python 3.10+**, **Docker Desktop**.
+
+#### Шаг 1: Получение кода
+*   Клонируйте репозиторий на свой компьютер:
+    ```bash
+    # Замените URL на адрес вашего репозитория
+    git clone https://github.com/YourUsername/YourRepoName.git
+    cd YourRepoName
+    ```
+
+#### Шаг 2: Настройка переменных окружения
+*   В корне проекта создайте файл `.env`.
+*   Скопируйте в него текст ниже и **обязательно вставьте ваш токен бота**:
+    ```env
+    DATABASE_URL=postgresql://user:password@localhost/izbranoe_db
+    BOT_TOKEN=12345:ABCDEFG...
+    ```
+
+#### Шаг 3: Запуск Базы Данных (Терминал 1)
+> **Важно:** Этот компонент должен работать в фоне.
+
+1.  Убедитесь, что **Docker Desktop запущен**.
+2.  Откройте терминал и выполните команду:
+    ```bash
+    docker start izbranoe-postgres
+    ```
+    > *Если вы видите ошибку "No such container", выполните команду для создания контейнера (это нужно сделать только один раз):*
+    > ```bash
+    > docker run --name izbranoe-postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=izbranoe_db -p 5432:5432 -d postgres
+    > ```
+
+#### Шаг 4: Запуск Бэкенда (Терминал 2)
+> **Важно:** Этот терминал должен оставаться открытым.
+
+1.  Откройте **новый** терминал и перейдите в корень проекта.
+2.  Создайте и активируйте виртуальное окружение:
+    ```bash
+    # Создать venv (если еще не создано)
+    python -m venv venv
+    # Активировать (Windows)
+    .\venv\Scripts\Activate
+    ```
+3.  Установите все необходимые Python-библиотеки:
+    ```bash
+    pip install -r requirements.txt
+    ```
+4.  Запустите сервер FastAPI:
+    ```bash
+    python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    ```
+    *Вы должны увидеть `Uvicorn running on http://0.0.0.0:8000`.*
+
+#### Шаг 5: Запуск Telegram-бота (Терминал 3)
+> **Важно:** Этот терминал тоже должен оставаться открытым.
+
+1.  Откройте **еще один новый** терминал и перейдите в корень проекта.
+2.  Активируйте то же самое виртуальное окружение:
+    ```bash
+    .\venv\Scripts\Activate
+    ```
+3.  Запустите бота:
+    ```bash
+    python bot.py
+    ```
+    *Вы должны увидеть `Start polling`.*
+
+#### Шаг 6: Доступ к Веб-интерфейсу
+1.  **Терминал не нужен.**
+2.  Просто найдите в папке проекта подпапку `frontend`.
+3.  Откройте файл `index.html` в вашем браузере.
+
+</details>
+
+<br>
+
+<details>
+<summary><strong>🇬🇧 English Instructions (click to expand)</strong></summary>
 
 **Prerequisites:** **Git**, **Python 3.10+**, **Docker Desktop**.
 
 #### Step 1: Clone the Repository
-```bash
-# Replace the URL with your repository's address
-git clone https://github.com/YourUsername/YourRepoName.git
-cd YourRepoName
+*   Clone the repository to your computer:
+    ```bash
+    # Replace the URL with your repository's address
+    git clone https://github.com/YourUsername/YourRepoName.git
+    cd YourRepoName
+    ```
+
+#### Step 2: Set Up Environment Variables
+*   Create a file named `.env` in the project's root directory.
+*   Copy the content below into it and **be sure to insert your bot token**:
+    ```env
+    DATABASE_URL=postgresql://user:password@localhost/izbranoe_db
+    BOT_TOKEN=12345:ABCDEFG...
+    ```
+
+#### Step 3: Run the Database (in Terminal 1)
+> **Important:** This component must run in the background.
+
+1.  Make sure **Docker Desktop is running**.
+2.  Open a terminal and run the command:
+    ```bash
+    docker start izbranoe-postgres
+    ```
+    > *If you see a "No such container" error, run the command to create the container instead (this only needs to be done once):*
+    > ```bash
+    > docker run --name izbranoe-postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=izbranoe_db -p 5432:5432 -d postgres
+    > ```
+
+#### Step 4: Run the Backend (in Terminal 2)
+> **Important:** This terminal must remain open.
+
+1.  Open a **new** terminal and navigate to the project root.
+2.  Create and activate a virtual environment:
+    ```bash
+    # Create venv (if it doesn't exist)
+    python -m venv venv
+    # Activate (Windows)
+    .\venv\Scripts\Activate
+    # Activate (macOS/Linux)
+    # source venv/bin/activate
+    ```
+3.  Install all required Python packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
+4.  Start the FastAPI server:
+    ```bash
+    python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    ```
+    *You should see `Uvicorn running on http://0.0.0.0:8000`.*
+
+#### Step 5: Run the Telegram Bot (in Terminal 3)
+> **Important:** This terminal must also remain open.
+
+1.  Open **another new** terminal and navigate to the project root.
+2.  Activate the same virtual environment:
+    ```bash
+    .\venv\Scripts\Activate
+    ```
+3.  Start the bot:
+    ```bash
+    python bot.py
+    ```
+    *You should see `Start polling`.*
+
+#### Step 6: Access the Web Interface
+1.  **No terminal is needed.**
+2.  Simply find the `frontend` subfolder in your project directory.
+3.  Open the `index.html` file in your favorite web browser.
+
+</details>
